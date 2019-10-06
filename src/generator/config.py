@@ -74,8 +74,13 @@ class GeneratorConfig:
     def __init__(self, directory: str):
         config_file = '{}/config/generator.yml'.format(directory)
 
-        with open(config_file) as fp:
-            data = yaml.load(fp, Loader=yaml.SafeLoader)
+        data = None
+        try:
+            with open(config_file) as fp:
+                data = yaml.load(fp, Loader=yaml.SafeLoader)
+        except FileNotFoundError:
+            print('{} is not found.'.format(config_file))
+            print('using default configuration')
 
         if data is None:
             data = {}
